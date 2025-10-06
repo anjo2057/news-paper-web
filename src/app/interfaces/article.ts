@@ -8,4 +8,8 @@ export interface Article {
   title: string;
   body: string;
   timestamp: string;
+  img_data: string | null;
+  img_media_type: string | null;
+  thumbnail_image: string | null;
+  thumbnail_media_type: string | null;
 }

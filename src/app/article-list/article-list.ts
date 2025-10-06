@@ -6,11 +6,13 @@ import { NewsService } from '../services/news.service';
 import { LoginService } from '../services/login.service';
 import { Article } from '../interfaces/article';
 import { Login } from '../login/login';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ArticleFilterPipe } from '../pipes/article-filter-pipe';
 
 @Component({
   selector: 'app-article-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, Login],
+  imports: [CommonModule, FormsModule, Login, NgbModule, ArticleFilterPipe],
   templateUrl: './article-list.html',
   styleUrl: './article-list.css',
 })
@@ -22,5 +24,17 @@ export class ArticleList implements OnInit {
 
   constructor(private newsService: NewsService, private loginService: LoginService) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.newsService.getArticles().subscribe({
+      next: (res) => (this.articles = res ?? []),
+      error: (err) => {
+        console.error('Failed to fetch articles', err);
+        this.articles = [];
+      },
+    });
+  }
+
+  trackById(index: number, item: Article) {
+    return item?.id;
+  }
 }

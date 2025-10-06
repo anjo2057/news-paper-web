@@ -1,40 +1,39 @@
 <app-login> </app-login>
 
-<p>article-list works!</p>
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-  <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/">News</a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCats">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navCats">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item" *ngFor="let c of ['All', 'National', 'Economy', 'Sports', 'Technology']">
-                <!-- <a class="nav-link" [class.active]="category===c" (click)="setCategory(c)">
-                    {{ c }}
-                </a> -->
-            </li>
-        </ul>
-
-        <form class="d-flex">
-            <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search for title or abstract"
-                [(ngModel)]="filterStr"
-                name="search"
-            >
-            <!-- <button
-                *ngIf="loginService?.isLogged && loginService.isLogged()"
-                class="btn btn-outline-primary"
-                type="button"
-                routerLink="/new">
-                New article
-            </button> -->
-        </form>
-    </div>
-</div>
+<nav class="nav nav-tabs">
+  <button
+    *ngFor="let c of ['All', 'National', 'Economy', 'Sports', 'Technology', 'International']"
+    class="nav-link"
+    [class.active]="category === c"
+    (click)="category = c"
+    type="button"
+  >
+    {{ c }}
+  </button>
 </nav>
 
+<div class="mt-2"></div>
+
+<div class="my-3">
+  <div class="row g-2">
+    <div class="col-auto">
+      <input class="form-control" placeholder="Search" [(ngModel)]="filterStr" />
+    </div>
+    <div class="col-auto align-self-center">
+      <small class="text-muted">Showing: {{ category }}</small>
+    </div>
+  </div>
+</div>
+
+<ul class="list-group">
+  <li
+    class="list-group-item"
+    *ngFor="let a of articles | articleFilter : category : filterStr; trackBy: trackById"
+  >
+    <h5>{{ a.title }}</h5>
+    <p>{{ a.abstract }}</p>
+
+    <small class="text-muted">{{ a.category }} • {{ a.update_date }}</small>
+  </li>
+</ul>
