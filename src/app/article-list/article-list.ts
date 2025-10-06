@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { NewsService } from '../services/news.service';
 import { LoginService } from '../services/login.service';
 import { Article } from '../interfaces/article';
+import { Login } from '../login/login';
 
 @Component({
   selector: 'app-article-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, Login],
   templateUrl: './article-list.html',
   styleUrl: './article-list.css',
 })
