@@ -1,1 +1,92 @@
-<p>article-edit works!</p>
+<form #articleForm="ngForm" (ngSubmit)="submitArticle()">
+  <div class="form-group">
+    <label> Title : </label>
+    <input
+      appHighlight
+      class="form-control"
+      type="text"
+      required
+      [(ngModel)]="article.title"
+      name="tarticle"
+      #tarticle="ngModel"
+      [ngClass]="
+        tarticle.valid && (tarticle.touched || tarticle.dirty)
+          ? 'valid-input'
+          : tarticle.invalid && (tarticle.touched || tarticle.dirty)
+          ? 'invalid-input'
+          : ''
+      "
+    />
+    <div class="alert alert-danger" *ngIf="tarticle.touched && !tarticle.valid">
+      <div *ngIf="tarticle.errors && tarticle.errors['required']">Title is required.</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label> Subtitle : </label>
+    <input
+      appHighlight
+      class="form-control"
+      type="text"
+      required
+      [(ngModel)]="article.subtitle"
+      name="sarticle"
+      #sarticle="ngModel"
+      [ngClass]="
+        sarticle.valid && (sarticle.touched || sarticle.dirty)
+          ? 'valid-input'
+          : sarticle.invalid && (sarticle.touched || sarticle.dirty)
+          ? 'invalid-input'
+          : ''
+      "
+    />
+    <div class="alert alert-danger" *ngIf="sarticle.touched && !sarticle.valid">
+      <div *ngIf="sarticle.errors && sarticle.errors['required']">Subtitle is required.</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label> Abstract : </label>
+    <input
+      appHighlight
+      class="form-control"
+      type="text"
+      required
+      [(ngModel)]="article.abstract"
+      name="aarticle"
+      #aarticle="ngModel"
+      [ngClass]="
+        aarticle.valid && (aarticle.touched || aarticle.dirty)
+          ? 'valid-input'
+          : aarticle.invalid && (aarticle.touched || aarticle.dirty)
+          ? 'invalid-input'
+          : ''
+      "
+    />
+    <div class="alert alert-danger" *ngIf="aarticle.touched && !aarticle.valid">
+      <div *ngIf="aarticle.errors && aarticle.errors['required']">Abstract is required.</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label> Body: </label>
+    <!-- TODO : Check the input WYSIWYG -->
+    <input
+      appHighlight
+      class="form-control"
+      type="text"
+      [(ngModel)]="article.body"
+      name="barticle"
+      #barticle="ngModel"
+    />
+  </div>
+
+  <!-- TODO : Add imge adding and category selection -->
+  <div class="text-right">
+    <button class="btn btn-primary btn-sm mr-1" type="submit" [disabled]="!articleForm.valid">
+      Submit article
+    </button>
+    &nbsp;
+    <button class="btn btn-primary btn-sm mr-1" type="button" (click)="clear()">Reset form</button>
+    &nbsp;
+    <button class="btn btn-primary btn-sm mr-1" type="button" (click)="goBack()">Back</button>
+  </div>
+</form>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { CommonModule, Location } from '@angular/common';
+import { ActivatedRoute, NavigationExtras, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NewsService } from '../services/news.service';
 import { LoginService } from '../services/login.service';
@@ -8,6 +8,7 @@ import { Article } from '../interfaces/article';
 import { Login } from '../login/login';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ArticleFilterPipe } from '../pipes/article-filter-pipe';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-article-list',
@@ -22,7 +23,13 @@ export class ArticleList implements OnInit {
   category = 'All';
   filterStr = '';
 
-  constructor(private newsService: NewsService, private loginService: LoginService) {}
+  constructor(
+    private newsService: NewsService,
+    private loginService: LoginService,
+    private location: Location,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.newsService.getArticles().subscribe({
@@ -36,5 +43,10 @@ export class ArticleList implements OnInit {
 
   trackById(index: number, item: Article) {
     return item?.id;
+  }
+
+  redirect(): void {
+    let navigationExtras: NavigationExtras = {};
+    this.router.navigate(['article-edit'], navigationExtras);
   }
 }
