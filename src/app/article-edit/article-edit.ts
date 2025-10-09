@@ -26,8 +26,10 @@ export class ArticleEdit implements OnInit {
     category: '',
     body: '',
     timestamp: '',
-    img_data: null,
-    img_media_type: null,
+    image_data: '',
+    image_media_type: '',
+    thumbnail_image: '',
+    thumbnail_media_type: '',
   };
   ngOnInit(): void {}
 

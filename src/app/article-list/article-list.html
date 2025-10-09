@@ -1,5 +1,7 @@
 <app-login> </app-login>
-<button (click)="redirect()" class="btn btn-primary btn-sm mr-1"> Create new article </button>
+<button (click)="redirect()" class="btn btn-primary btn-sm mr-1">Create new article</button>
+<br/>
+
 <nav class="nav nav-tabs">
   <button
     *ngFor="let c of ['All', 'National', 'Economy', 'Sports', 'Technology', 'International']"
@@ -30,7 +32,7 @@
     class="list-group-item"
     *ngFor="let a of articles | articleFilter : category : filterStr; trackBy: trackById"
   >
-    <img [src]="'data:' + a.img_media_type + ';base64,' + a.img_data" />
+    <img [src]="'data:' + a.thumbnail_media_type + ';base64,' + a.thumbnail_image" />
     <h5>{{ a.title }}</h5>
     <p>{{ a.abstract }}</p>
 
