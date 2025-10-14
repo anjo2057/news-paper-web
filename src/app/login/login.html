@@ -1,15 +1,42 @@
-<div class="d-flex justify-content-end">
-  <form>
-    <div class="form-row">
-      <div class="col">
-        <input type="text" class="form-control" placeholder="Username" />
-      </div>
-      <div class="col">
-        <input type="text" class="form-control" placeholder="Password" />
-      </div>
-      <div class="col">
-        <button class="btn btn-primary btn-sm mr-1" type="submit"> Log in</button>
-      </div>
+<!-- Logged in -->
+<div class="container-fluid mt-3 d-flex" *ngIf="isLogged(); else formTpl">
+  <div class="ms-auto">
+    <div class="d-flex align-items-center gap-2">
+      <span class="fw-semibold">Hello, {{ currentUsername() }}</span>
+      <button class="btn btn-outline-danger btn-sm" (click)="logout()">Logout</button>
     </div>
-  </form>
+  </div>
 </div>
+
+<!-- Logged out -->
+<ng-template #formTpl>
+  <div class="container-fluid mt-3 d-flex justify-content-end">
+    <form class="d-flex align-items-center gap-2" (ngSubmit)="login()">
+      <input
+        class="form-control form-control-sm"
+        style="width: 160px;"
+        placeholder="Username"
+        [(ngModel)]="username"
+        name="u"
+        required
+      >
+
+      <input
+        type="password"
+        class="form-control form-control-sm"
+        style="width: 160px;"
+        placeholder="Password"
+        [(ngModel)]="password"
+        name="p"
+        required
+      >
+
+      <button class="btn btn-primary btn-sm" type="submit">Login</button>
+
+      <!-- Error (extra, vi kan ta bort om vi vill) -->
+      <div *ngIf="error" class="text-danger small ms-2">
+        {{ error }}
+      </div>
+    </form>
+  </div>
+</ng-template>
