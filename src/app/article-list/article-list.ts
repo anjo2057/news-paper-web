@@ -19,13 +19,12 @@ import * as _ from 'lodash';
 })
 export class ArticleList implements OnInit {
   articles: Article[] = [];
-  filterArticles: Article[] = [];
   category = 'All';
   filterStr = '';
 
   constructor(
     private newsService: NewsService,
-    private loginService: LoginService,
+    public loginService: LoginService,
     private location: Location,
     private router: Router,
     private route: ActivatedRoute
@@ -33,7 +32,7 @@ export class ArticleList implements OnInit {
 
   ngOnInit(): void {
     this.newsService.getArticles().subscribe({
-      next: (res) => (this.articles = res),
+      next: (res) => (this.articles = res ?? []),
       error: (err) => {
         console.error('Failed to fetch articles', err);
         this.articles = [];
@@ -41,18 +40,26 @@ export class ArticleList implements OnInit {
     });
   }
 
+  isLogged(): boolean {
+    return this.loginService.isLogged();
+  }
+
   goToArticle(id: number): void {
     let navigationExtras: NavigationExtras = {};
     this.router.navigate(['article-details', id], navigationExtras);
   }
 
-  trackById(index: number, item: Article) {
-    return item?.id;
+  createNew(): void {
+    if (!this.isLogged()) {
+      alert('Du behöver vara inloggad för att skapa en artikel.');
+      return;
+    }
+    const navigationExtras: NavigationExtras = {};
+    this.router.navigate(['article-edit'], navigationExtras);
   }
 
-  redirect(): void {
-    let navigationExtras: NavigationExtras = {};
-    this.router.navigate(['article-edit'], navigationExtras);
+  trackById(index: number, item: Article) {
+    return item?.id;
   }
 
   // Inline SVG placeholder (small gray image) to avoid requiring an external asset file

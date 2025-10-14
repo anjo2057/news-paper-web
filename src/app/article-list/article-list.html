@@ -1,19 +1,28 @@
-<button (click)="redirect()" class="btn btn-primary btn-sm mr-1">Create new article</button>
-<br/>
+<div class="d-flex align-items-center justify-content-between mb-2">
 
-<nav class="nav nav-tabs">
-  <button
-    *ngFor="let c of ['All', 'National', 'Economy', 'Sports', 'Technology', 'International']"
-    class="nav-link"
-    [class.active]="category === c"
-    (click)="category = c"
-    type="button"
-  >
-    {{ c }}
-  </button>
-</nav>
+  <nav class="nav nav-tabs">
+    <button
+      *ngFor="let c of ['All', 'National', 'Economy', 'Sports', 'Technology', 'International']"
+      class="nav-link"
+      [class.active]="category === c"
+      (click)="category = c"
+      type="button"
+    >
+      {{ c }}
+    </button>
+  </nav>
 
-<div class="mt-2"></div>
+  <div>
+    <button
+      *ngIf="isLogged()"
+      (click)="createNew()"
+      class="btn btn-primary btn-sm"
+      type="button"
+    >
+      Create new article
+    </button>
+  </div>
+</div>
 
 <div class="my-3">
   <div class="row g-2">
@@ -33,9 +42,14 @@
     (click)="goToArticle(a.id)"
     style="cursor: pointer;"
   >
-    <img [src]="'data:' + a.thumbnail_media_type + ';base64,' + a.thumbnail_image" />
-    <h5>{{ a.title }}</h5>
-    <p>{{ a.abstract }}</p>
+    <img
+      *ngIf="a.thumbnail_image && a.thumbnail_media_type"
+      [src]="'data:' + a.thumbnail_media_type + ';base64,' + a.thumbnail_image"
+      alt=""
+      style="max-width: 120px; height: auto; margin-right: 8px;"
+    />
+    <h5 class="mt-2 mb-1">{{ a.title }}</h5>
+    <p class="mb-1">{{ a.abstract }}</p>
     <small class="text-muted">{{ a.category }} • {{ a.update_date }}</small>
   </li>
 </ul>
