@@ -1,1 +1,16 @@
-<p>article-details works!</p>
+<h1>Article Details</h1>
+
+<div class="mb-3">
+  <img
+    [src]="'data:' + article?.image_media_type + ';base64,' + article?.image_data"
+    style="max-width: 75%; max-height: 400px"
+  />
+  <h2>{{ article?.title }}</h2>
+  <h4>{{ article?.abstract }}</h4>
+  <p>{{ article?.body }}</p>
+  <p><strong>Category:</strong> {{ article?.category }}</p>
+  <p><strong>Updated on:</strong> {{ article?.update_date | date }}</p>
+</div>
+<div>
+  <button class="btn btn-secondary" (click)="goBack()">Back to main page</button>
+</div>

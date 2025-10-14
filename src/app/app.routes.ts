@@ -8,7 +8,7 @@ export const routes: Routes = [
   // Default route: redirect root to the article list
   { path: '', redirectTo: 'article-list', pathMatch: 'full' },
   { path: 'article-edit', component: ArticleEdit },
-  { path: 'article-details', component: ArticleDetails },
+  { path: 'article-details/:value', component: ArticleDetails },
   { path: 'article-list', component: ArticleList },
   // Fallback for unknown paths
   { path: '**', redirectTo: 'article-list' },

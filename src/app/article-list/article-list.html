@@ -31,11 +31,12 @@
   <li
     class="list-group-item"
     *ngFor="let a of articles | articleFilter : category : filterStr; trackBy: trackById"
+    (click)="goToArticle(a.id)"
+    style="cursor: pointer;"
   >
     <img [src]="'data:' + a.thumbnail_media_type + ';base64,' + a.thumbnail_image" />
     <h5>{{ a.title }}</h5>
     <p>{{ a.abstract }}</p>
-
     <small class="text-muted">{{ a.category }} • {{ a.update_date }}</small>
   </li>
 </ul>

@@ -41,6 +41,11 @@ export class ArticleList implements OnInit {
     });
   }
 
+  goToArticle(id: number): void {
+    let navigationExtras: NavigationExtras = {};
+    this.router.navigate(['article-details', id], navigationExtras);
+  }
+
   trackById(index: number, item: Article) {
     return item?.id;
   }
