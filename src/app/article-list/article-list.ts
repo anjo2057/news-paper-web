@@ -8,6 +8,7 @@ import { Article } from '../interfaces/article';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ArticleFilterPipe } from '../pipes/article-filter-pipe';
 import * as _ from 'lodash';
+import { Url } from 'url';
 
 @Component({
   selector: 'app-article-list',
@@ -56,17 +57,37 @@ export class ArticleList implements OnInit {
     const navigationExtras: NavigationExtras = {};
     this.router.navigate(['article-edit'], navigationExtras);
   }
-// TODO: LÄnka html knapparna till denna funktion på rätt sätt 
+  // TODO: does not actually edit anything
   editArticle(): void {
     console.log('edited');
-
   }
 
-  //TODO: implement function för remove 
-  removeArticle(): void {
-    console.log('removed');
+  //TODO: eroor when trying to delete from server
+  removeArticle(a: Article, ev?: Event): void {
+  ev?.stopPropagation?.();
 
+  if (!a || a.id == null) {
+    console.error('Article missing id:', a);
+    alert('Could not delete: article has no id.');
+    return;
   }
+
+  if (!window.confirm(`Do you want to remove "${a.title}"?`)) return;
+
+  // Lärarens service tar Article | number – vi skickar hela a
+  this.newsService.deleteArticle(a).subscribe({
+    next: () => {
+      this.articles = this.articles.filter(x => x.id !== a.id);
+      alert('Article deleted.');
+    },
+    error: (err) => {
+      console.error('Failed to delete article', a.id, err);
+      const code = err?.status ? ` (HTTP ${err.status})` : '';
+      alert('Could not delete the article' + code);
+    }
+  });
+}
+
 
   trackById(index: number, item: Article) {
     return item?.id;

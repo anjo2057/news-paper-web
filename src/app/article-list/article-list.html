@@ -1,5 +1,4 @@
 <div class="d-flex align-items-center justify-content-between mb-2">
-
   <nav class="nav nav-tabs">
     <button
       *ngFor="let c of ['All', 'National', 'Economy', 'Sports', 'Technology', 'International']"
@@ -13,12 +12,7 @@
   </nav>
 
   <div>
-    <button
-      *ngIf="isLogged()"
-      (click)="createNew()"
-      class="btn btn-primary btn-sm"
-      type="button"
-    >
+    <button *ngIf="isLogged()" (click)="createNew()" class="btn btn-primary btn-sm" type="button">
       Create new article
     </button>
   </div>
@@ -39,18 +33,15 @@
   <li
     class="list-group-item"
     *ngFor="let a of articles | articleFilter : category : filterStr; trackBy: trackById"
-    >
+  >
     <img
-    *ngIf="a.thumbnail_image && a.thumbnail_media_type"
-    [src]="'data:' + a.thumbnail_media_type + ';base64,' + a.thumbnail_image"
-    alt=""
-    style="max-width: 120px; height: auto; margin-right: 8px; cursor: pointer"
-    (click)="goToArticle(a.id)"
+      *ngIf="a.thumbnail_image && a.thumbnail_media_type"
+      [src]="'data:' + a.thumbnail_media_type + ';base64,' + a.thumbnail_image"
+      alt=""
+      style="max-width: 120px; height: auto; margin-right: 8px; cursor: pointer"
+      (click)="goToArticle(a.id)"
     />
-    <h5 class="mt-2 mb-1"
-     style="cursor: pointer;"
-    (click)="goToArticle(a.id)">{{ a.title }}
-    </h5>
+    <h5 class="mt-2 mb-1" style="cursor: pointer" (click)="goToArticle(a.id)">{{ a.title }}</h5>
     <p class="mb-1">{{ a.abstract }}</p>
     <small class="text-muted">{{ a.category }} • {{ a.update_date }}</small>
     <button
@@ -62,12 +53,12 @@
       Edit article
     </button>
     <button
-      *ngIf="isLogged()"
-      (click)="removeArticle()"
+    *ngIf="isLogged()"
       class="btn btn-secondary btn-sm"
       type="button"
+      (click)="removeArticle(a, $event); $event.stopPropagation()"
     >
-      Delete article
+      Delete
     </button>
   </li>
 </ul>

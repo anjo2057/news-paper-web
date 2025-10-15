@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Article } from '../interfaces/article';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginService } from './login.service';
 
@@ -14,12 +13,12 @@ export class NewsService {
   private articleUrl = 'http://sanger.dia.fi.upm.es/pui-rest-news/article'; // URL to web api
 
   constructor(private http: HttpClient) {
-    this.APIKEY = '';
+    this.APIKEY = 'ANON09';
   }
 
   // Set the corresponding APIKEY accordig to the received by email
   private APIKEY: string | null;
-  private APIKEY_ANON = 'DEV_TEAM_009/654321@09';
+  private APIKEY_ANON = 'ANON09';
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -58,12 +57,15 @@ export class NewsService {
   //  "thumbnail_media_type":...}
 
   getArticles(): Observable<Article[]> {
-    return this.http.get<Article[]>(this.newsUrl, this.httpOptions);
+        return this.http.get<Article[]>(this.newsUrl, this.httpOptions)
+      .pipe(tap(data => console.log('Fetched articles:', data)));
+
   }
 
   deleteArticle(article: Article | number): Observable<Article> {
     const id = typeof article === 'number' ? article : article.id;
     const url = `${this.articleUrl}/${id}`;
+    console.log('DELETE', url);
     return this.http.delete<Article>(url, this.httpOptions);
   }
 
