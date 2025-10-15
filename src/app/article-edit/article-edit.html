@@ -67,34 +67,52 @@
   </div>
 
   <div class="form-group">
-    <label> Body: </label>
-    <!-- TODO : Check the input WYSIWYG -->
-    <angular-editor
-      [(ngModel)]="article.body"
-      name="barticle"
-      #barticle="ngModel"
+    <label> Category : </label>
+    <select
+      class="form-control"
+      aria-placeholder="Select category"
+      required
+      [(ngModel)]="article.category"
+      name="carticle"
+      #carticle="ngModel"
       [ngClass]="
-        barticle.valid && (barticle.touched || barticle.dirty)
+        carticle.valid && (carticle.touched || carticle.dirty)
           ? 'valid-input'
-          : barticle.invalid && (barticle.touched || barticle.dirty)
+          : carticle.invalid && (carticle.touched || carticle.dirty)
           ? 'invalid-input'
           : ''
       "
-    ></angular-editor>
-    <div class="alert alert-danger" *ngIf="barticle.touched && !barticle.valid">
-      <div *ngIf="barticle.errors && barticle.errors['required']">Body is required.</div>
+    >
+      <option value="" disabled>Select category</option>
+      <option
+        *ngFor="let c of ['All', 'National', 'Economy', 'Sports', 'Technology', 'International']"
+        [value]="c"
+      >
+        {{ c }}
+      </option>
+    </select>
+    <div class="alert alert-danger" *ngIf="carticle.touched && !carticle.valid">
+      <div *ngIf="carticle.errors && carticle.errors['required']">Category is required.</div>
     </div>
-    <!-- <input
-      appHighlight
-      class="form-control"
-      type="text"
-      [(ngModel)]="article.body"
-      name="barticle"
-      #barticle="ngModel"
-    /> -->
   </div>
 
-  <!-- TODO : Add imge adding and category selection -->
+  <div class="form-group">
+    <label> Image : </label>
+    <input type="file" (change)="onFileSelected($event)" required #imageInput="ngModel" name="image" ngModel />
+    <div class="alert alert-danger" *ngIf="imageInput.touched && !imageInput.valid">
+      <div *ngIf="imageInput.errors && imageInput.errors['required']">Image is required.</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label> Body: </label>
+    <angular-editor
+      [(ngModel)]="article.body"
+      [config]="editorConfig"
+      name="barticle"
+      #barticle="ngModel"
+    ></angular-editor>
+  </div>
   <div class="text-right">
     <button class="btn btn-primary btn-sm mr-1" type="submit" [disabled]="!articleForm.valid">
       Submit article
