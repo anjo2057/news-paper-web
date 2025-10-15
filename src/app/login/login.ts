@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { error } from 'console';
 import { BlobOptions } from 'buffer';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class Login {
   password = '';
   error: string | null = null;
 
-  constructor(public loginservice: LoginService) {}
+  constructor(public loginservice: LoginService, private router: Router) {}
   //constructor(private loginservice: LoginService) {}
   // private user: User | null = null;
 
@@ -39,6 +40,8 @@ export class Login {
 
   logout(): void {
     this.loginservice.logout();
+    let navigationExtras: NavigationExtras = {};
+    this.router.navigate(['article-list',], navigationExtras);
   }
 
   isLogged(): boolean {
@@ -48,15 +51,4 @@ export class Login {
   currentUsername(): string {
     return this.loginservice.getUser()?.username ?? '';
   }
-
-  //checkLogin(): boolean {
-    //if (this.loginservice.isLogged()) {
-      //return this.loginservice.isLogged();
-    //} else {
-      //window.alert(
-        //'The user: ' + this.user?.username + 'could not be logged in. Wrong password or username'
-      //);
-      //return false;
-    //}
-  //}
 }

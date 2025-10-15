@@ -1,0 +1,76 @@
+:host {
+  --ink: #370000;
+  --muted: #8d0000;
+  --line: #370000; 
+  color: var(--ink);
+  font-feature-settings: "kern";
+}
+
+.d-flex.align-items-center.justify-content-between.mb-2 {
+  padding-bottom: .25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.nav.nav-tabs .nav-link {
+  border: 0;
+  color: var(--muted);
+  padding: .5rem .75rem;
+  margin-right: .25rem;
+}
+.nav.nav-tabs .nav-link:hover {
+  color: var(--ink);
+  background: transparent;
+}
+.nav.nav-tabs .nav-link.active {
+  color: var(--ink);
+  font-weight: 500;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.btn.btn-secondary.btn-sm {
+  background-color: #f8fafc;
+  color: var(--ink);
+  border: 0.7px solid var(--line);
+}
+.btn.btn-secondary.btn-sm:hover {
+  background-color: #eef2f7;
+  border-color: #d1d5db;
+}
+
+.btn.btn-primary.btn-sm:hover {
+  filter: brightness(.98);
+}
+
+.btn.btn-primary.btn-sm{
+    background-color: rgb(13, 90, 32);
+    border-color: #370000;
+}
+
+.btn.btn-primary.btn-sm:hover{
+    background-color: rgb(26, 161, 59);
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meta-row .push {
+  margin-left: auto;
+}
+
+.meta-row .btn + .btn {
+  margin-left: 12px;
+}
+
+.badge-cat {
+  background: #fff;
+  border: 0.7px solid var(--line);
+  color: var(--ink);
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+

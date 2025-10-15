@@ -43,22 +43,29 @@
     />
     <h5 class="mt-2 mb-1" style="cursor: pointer" (click)="goToArticle(a.id)">{{ a.title }}</h5>
     <p [innerHTML]="a.abstract" class="mb-1"></p>
-    <small class="text-muted">{{ a.category }} • {{ a.update_date }}</small>
-    <button
-      *ngIf="isLogged()"
-      (click)="editArticle(a, $event)"
-      class="btn btn-secondary btn-sm"
-      type="button"
-    >
-      Edit article
-    </button>
-    <button
-      *ngIf="isLogged()"
-      class="btn btn-secondary btn-sm"
-      type="button"
-      (click)="removeArticle(a, $event); $event.stopPropagation()"
-    >
-      Delete
-    </button>
+    <div class="meta-row">
+      <span class="badge-cat">{{ a.category }}</span>
+      <small>{{ a.update_date }}</small>
+
+      <span class="push"></span>
+      <!-- trycker knapparna till höger -->
+
+      <button
+        *ngIf="isLogged()"
+        class="btn btn-secondary btn-sm"
+        type="button"
+        (click)="$event.stopPropagation(); editArticle(a, $event)"
+      >
+        Edit
+      </button>
+      <button
+        *ngIf="isLogged()"
+        class="btn btn-secondary btn-sm"
+        type="button"
+        (click)="$event.stopPropagation(); removeArticle(a, $event)"
+      >
+        Delete
+      </button>
+    </div>
   </li>
 </ul>
