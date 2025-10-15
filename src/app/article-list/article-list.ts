@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { NewsService } from '../services/news.service';
 import { LoginService } from '../services/login.service';
 import { Article } from '../interfaces/article';
-import { Login } from '../login/login';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ArticleFilterPipe } from '../pipes/article-filter-pipe';
 import * as _ from 'lodash';
@@ -13,7 +12,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-article-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, Login, NgbModule, ArticleFilterPipe],
+  imports: [CommonModule, FormsModule, NgbModule, ArticleFilterPipe],
   templateUrl: './article-list.html',
   styleUrl: './article-list.css',
 })

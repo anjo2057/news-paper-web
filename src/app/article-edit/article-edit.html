@@ -69,14 +69,29 @@
   <div class="form-group">
     <label> Body: </label>
     <!-- TODO : Check the input WYSIWYG -->
-    <input
+    <angular-editor
+      [(ngModel)]="article.body"
+      name="barticle"
+      #barticle="ngModel"
+      [ngClass]="
+        barticle.valid && (barticle.touched || barticle.dirty)
+          ? 'valid-input'
+          : barticle.invalid && (barticle.touched || barticle.dirty)
+          ? 'invalid-input'
+          : ''
+      "
+    ></angular-editor>
+    <div class="alert alert-danger" *ngIf="barticle.touched && !barticle.valid">
+      <div *ngIf="barticle.errors && barticle.errors['required']">Body is required.</div>
+    </div>
+    <!-- <input
       appHighlight
       class="form-control"
       type="text"
       [(ngModel)]="article.body"
       name="barticle"
       #barticle="ngModel"
-    />
+    /> -->
   </div>
 
   <!-- TODO : Add imge adding and category selection -->
