@@ -42,7 +42,7 @@
       (click)="goToArticle(a.id)"
     />
     <h5 class="mt-2 mb-1" style="cursor: pointer" (click)="goToArticle(a.id)">{{ a.title }}</h5>
-    <p class="mb-1">{{ a.abstract }}</p>
+    <p [innerHTML]="a.abstract" class="mb-1"></p>
     <small class="text-muted">{{ a.category }} • {{ a.update_date }}</small>
     <button
       *ngIf="isLogged()"

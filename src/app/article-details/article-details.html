@@ -6,10 +6,10 @@
     style="max-width: 75%; max-height: 400px"
   />
   <h2>{{ article?.title }}</h2>
-  <h4>{{ article?.abstract }}</h4>
-  <p>{{ article?.body }}</p>
+  <h4 [innerHTML]="article?.abstract"></h4>
+  <p [innerHTML]="article?.body"></p>
   <p><strong>Category:</strong> {{ article?.category }}</p>
-  <p><strong>Updated on:</strong> {{ article?.update_date | date }}</p>
+  <p><strong>Updated on:</strong> {{ article?.update_date | date }} by {{ article?.id_user || 'Top view author please log in' }}</p>
 </div>
 <div>
   <button class="btn btn-secondary" (click)="goBack()">Back to main page</button>

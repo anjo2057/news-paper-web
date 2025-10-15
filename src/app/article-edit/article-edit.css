@@ -1,9 +1,9 @@
 .valid-input {
-  border: 10px solid green !important;
+  border: 3px solid green !important;
   border-radius: 8px;
 }
 
 .invalid-input {
-  border: 10px solid yellow ;
+  border: 3px solid yellow ;
   border-radius: 8px;
 }
