@@ -17,7 +17,15 @@ import { Router } from '@angular/router';
 export class ArticleEdit implements OnInit {
   @ViewChild('articleForm') articleForm: any;
 
-  constructor(private newsService: NewsService, private Location: Location, private router: Router) {}
+  constructor(
+    private newsService: NewsService,
+    private Location: Location,
+    private router: Router
+  ) {}
+
+  isEdit = false;
+  loading = false;
+  error?: string;
 
   editorConfig: AngularEditorConfig = {
     editable: true,
@@ -68,7 +76,7 @@ export class ArticleEdit implements OnInit {
   };
 
   article: Article = {
-    id: 0, //TODO : might not needed check here and in interfaces
+    id: 0,
     id_user: 0,
     title: '',
     abstract: '',
@@ -82,7 +90,40 @@ export class ArticleEdit implements OnInit {
     thumbnail_image: '',
     thumbnail_media_type: '',
   };
-  ngOnInit(): void {}
+
+  private toDataUrl(mt?: string | null, b64?: string | null) {
+    if (!mt || !b64) return '';
+    return `data:${mt};base64,${b64}`;
+  }
+  private stripDataUrl(v: string | null | undefined) {
+    return v && v.startsWith('data:') ? v.split(',')[1] ?? '' : v ?? '';
+  }
+
+  ngOnInit(): void {
+    // Läser artikeln som skickades från listan (via router state)
+    const st = history.state?.article as Article | undefined;
+    if (st && st.id != null) {
+      this.isEdit = true;
+
+      this.article = {
+        ...this.article,
+        ...st,
+        image_data: st.image_data
+          ? st.image_data.startsWith('data:')
+            ? st.image_data
+            : this.toDataUrl(st.image_media_type, st.image_data as any)
+          : '',
+        thumbnail_image: st.thumbnail_image
+          ? st.thumbnail_image.startsWith('data:')
+            ? st.thumbnail_image
+            : this.toDataUrl(st.thumbnail_media_type, st.thumbnail_image as any)
+          : '',
+      };
+    } else {
+      // NEW (ingen state-article skickad)
+      this.isEdit = false;
+    }
+  }
 
   submitArticle(): void {
     if (!this.article.title || !this.article.abstract || !this.article.category) {
@@ -96,11 +137,8 @@ export class ArticleEdit implements OnInit {
 
     const stripDataUrl = (v: string | null | undefined) =>
       v && v.startsWith('data:') ? v.split(',')[1] ?? '' : v ?? '';
-    //const currentDateTime = new Date().toISOString().replace('T', ' ').split('.')[0];
     const payload: any = {
-      //id: Math.floor(Math.random() * 10000) + 1,
-      //id_user: 9,
-      //date: currentDateTime,
+      id: this.isEdit ? this.article.id : null, // 👈 id med vid EDIT
       title: this.article.title,
       subtitle: this.article.subtitle,
       category: this.article.category,
@@ -112,6 +150,8 @@ export class ArticleEdit implements OnInit {
       thumbnail_image: stripDataUrl(this.article.thumbnail_image),
       is_public: '1',
     };
+
+    this.loading = true;
 
     this.newsService.createArticle(payload).subscribe({
       next: (created) => {

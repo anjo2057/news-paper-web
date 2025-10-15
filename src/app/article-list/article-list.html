@@ -46,14 +46,14 @@
     <small class="text-muted">{{ a.category }} • {{ a.update_date }}</small>
     <button
       *ngIf="isLogged()"
-      (click)="editArticle()"
+      (click)="editArticle(a, $event)"
       class="btn btn-secondary btn-sm"
       type="button"
     >
       Edit article
     </button>
     <button
-    *ngIf="isLogged()"
+      *ngIf="isLogged()"
       class="btn btn-secondary btn-sm"
       type="button"
       (click)="removeArticle(a, $event); $event.stopPropagation()"

@@ -57,37 +57,50 @@ export class ArticleList implements OnInit {
     const navigationExtras: NavigationExtras = {};
     this.router.navigate(['article-edit'], navigationExtras);
   }
-  // TODO: does not actually edit anything
-  editArticle(): void {
+
+  editArticle(a: Article, ev?: Event): void {
     console.log('edited');
-  }
+    ev?.stopPropagation?.();
 
-  //TODO: eroor when trying to delete from server
-  removeArticle(a: Article, ev?: Event): void {
-  ev?.stopPropagation?.();
-
-  if (!a || a.id == null) {
-    console.error('Article missing id:', a);
-    alert('Could not delete: article has no id.');
-    return;
-  }
-
-  if (!window.confirm(`Do you want to remove "${a.title}"?`)) return;
-
-  // Lärarens service tar Article | number – vi skickar hela a
-  this.newsService.deleteArticle(a).subscribe({
-    next: () => {
-      this.articles = this.articles.filter(x => x.id !== a.id);
-      alert('Article deleted.');
-    },
-    error: (err) => {
-      console.error('Failed to delete article', a.id, err);
-      const code = err?.status ? ` (HTTP ${err.status})` : '';
-      alert('Could not delete the article' + code);
+    if (!this.isLogged()) {
+      alert('You have to be logged in to edit an article');
+      return;
     }
-  });
-}
+    if (!a || a.id == null) {
+      alert('Could not open editing page: article misses id');
+      return;
+    }
 
+    const navigationExtras: NavigationExtras = {
+      state: { article: a },
+    };
+    this.router.navigate(['article-edit'], navigationExtras);
+  }
+
+  removeArticle(a: Article, ev?: Event): void {
+    ev?.stopPropagation?.();
+
+    if (!a || a.id == null) {
+      console.error('Article missing id:', a);
+      alert('Could not delete: article has no id.');
+      return;
+    }
+
+    if (!window.confirm(`Do you want to remove "${a.title}"?`)) return;
+
+    // Lärarens service tar Article | number – vi skickar hela a
+    this.newsService.deleteArticle(a).subscribe({
+      next: () => {
+        this.articles = this.articles.filter((x) => x.id !== a.id);
+        alert('Article deleted.');
+      },
+      error: (err) => {
+        console.error('Failed to delete article', a.id, err);
+        const code = err?.status ? ` (HTTP ${err.status})` : '';
+        alert('Could not delete the article' + code);
+      },
+    });
+  }
 
   trackById(index: number, item: Article) {
     return item?.id;
