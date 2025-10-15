@@ -39,17 +39,35 @@
   <li
     class="list-group-item"
     *ngFor="let a of articles | articleFilter : category : filterStr; trackBy: trackById"
-    (click)="goToArticle(a.id)"
-    style="cursor: pointer;"
-  >
+    >
     <img
-      *ngIf="a.thumbnail_image && a.thumbnail_media_type"
-      [src]="'data:' + a.thumbnail_media_type + ';base64,' + a.thumbnail_image"
-      alt=""
-      style="max-width: 120px; height: auto; margin-right: 8px;"
+    *ngIf="a.thumbnail_image && a.thumbnail_media_type"
+    [src]="'data:' + a.thumbnail_media_type + ';base64,' + a.thumbnail_image"
+    alt=""
+    style="max-width: 120px; height: auto; margin-right: 8px; cursor: pointer"
+    (click)="goToArticle(a.id)"
     />
-    <h5 class="mt-2 mb-1">{{ a.title }}</h5>
+    <h5 class="mt-2 mb-1"
+     style="cursor: pointer;"
+    (click)="goToArticle(a.id)">{{ a.title }}
+    </h5>
     <p class="mb-1">{{ a.abstract }}</p>
     <small class="text-muted">{{ a.category }} • {{ a.update_date }}</small>
+    <button
+      *ngIf="isLogged()"
+      (click)="editArticle()"
+      class="btn btn-secondary btn-sm"
+      type="button"
+    >
+      Edit article
+    </button>
+    <button
+      *ngIf="isLogged()"
+      (click)="removeArticle()"
+      class="btn btn-secondary btn-sm"
+      type="button"
+    >
+      Delete article
+    </button>
   </li>
 </ul>

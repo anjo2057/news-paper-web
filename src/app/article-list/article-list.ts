@@ -56,6 +56,17 @@ export class ArticleList implements OnInit {
     const navigationExtras: NavigationExtras = {};
     this.router.navigate(['article-edit'], navigationExtras);
   }
+// TODO: LÄnka html knapparna till denna funktion på rätt sätt 
+  editArticle(): void {
+    console.log('edited');
+
+  }
+
+  //TODO: implement function för remove 
+  removeArticle(): void {
+    console.log('removed');
+
+  }
 
   trackById(index: number, item: Article) {
     return item?.id;
