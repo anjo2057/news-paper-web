@@ -1,0 +1,71 @@
+<div class="d-flex align-items-center justify-content-between mb-2">
+  <nav class="nav nav-tabs">
+    <button
+      *ngFor="let c of ['All', 'National', 'Economy', 'Sports', 'Technology', 'International']"
+      class="nav-link"
+      [class.active]="category === c"
+      (click)="category = c"
+      type="button"
+    >
+      {{ c }}
+    </button>
+  </nav>
+
+  <div>
+    <button *ngIf="isLogged()" (click)="createNew()" class="btn btn-primary btn-sm" type="button">
+      Create new article
+    </button>
+  </div>
+</div>
+
+<div class="my-3">
+  <div class="row g-2">
+    <div class="col-auto">
+      <input class="form-control" placeholder="Search" [(ngModel)]="filterStr" />
+    </div>
+    <div class="col-auto align-self-center">
+      <small class="text-muted">Showing: {{ category }}</small>
+    </div>
+  </div>
+</div>
+
+<ul class="list-group">
+  <li
+    class="list-group-item"
+    *ngFor="let a of articles | articleFilter : category : filterStr; trackBy: trackById"
+  >
+    <img
+      *ngIf="a.thumbnail_image && a.thumbnail_media_type"
+      [src]="'data:' + a.thumbnail_media_type + ';base64,' + a.thumbnail_image"
+      alt=""
+      style="max-width: 120px; height: auto; margin-right: 8px; cursor: pointer"
+      (click)="goToArticle(a.id)"
+    />
+    <h5 class="mt-2 mb-1" style="cursor: pointer" (click)="goToArticle(a.id)">{{ a.title }}</h5>
+    <p [innerHTML]="a.abstract" class="mb-1"></p>
+    <div class="meta-row">
+      <span class="badge-cat">{{ a.category }}</span>
+      <small>{{ a.update_date }}</small>
+
+      <span class="push"></span>
+      <!-- trycker knapparna till höger -->
+
+      <button
+        *ngIf="isLogged()"
+        class="btn btn-secondary btn-sm"
+        type="button"
+        (click)="$event.stopPropagation(); editArticle(a, $event)"
+      >
+        Edit
+      </button>
+      <button
+        *ngIf="isLogged()"
+        class="btn btn-secondary btn-sm"
+        type="button"
+        (click)="$event.stopPropagation(); removeArticle(a, $event)"
+      >
+        Delete
+      </button>
+    </div>
+  </li>
+</ul>
